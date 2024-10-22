@@ -16,15 +16,15 @@ cd api_final_yatube
 Cоздать и активировать виртуальное окружение:
 
 ```
-python3 -m venv env
+python -m venv venv
 ```
 
 ```
-source env/bin/activate
+source venv/Scripts/activate
 ```
 
 ```
-python3 -m pip install --upgrade pip
+python -m pip install --upgrade pip
 ```
 
 Установить зависимости из файла requirements.txt:
@@ -36,43 +36,44 @@ pip install -r requirements.txt
 Выполнить миграции:
 
 ```
-python3 manage.py migrate
+python manage.py migrate
 ```
 
 Запустить проект:
 
 ```
-python3 manage.py runserver
+python manage.py runserver
 ```
 
 ### Описание
 
 Здесь вы можете совершать определенные действия с обьектами:
 
-Endpoint	Object	Methods	Description
-/api/v1/posts/	Post	GET, POST	Получаем список постов и создаем пост.
-/api/v1/posts/{id}/	Post	GET, PUT, PATCH, DELETE	Получаем, редактируем, заменяем, отдельный пост.
-/api/v1/posts/{post_id}/comments/	Comment	GET, POST	Получаем список комментариев и создаем комментарий к конкретному посту
-/api/v1/posts/{post_id}/comments/{id}/	Comment	GET, PUT, PATCH, DELETE	Получаем, редактируем, заменяем, отдельный комментарий и конкретному посту.
-/api/v1/groups/	Group	GET	Получаем список групп. Только чтоние
-/api/v1/groups/{id}/	Group	GET	Получаем конкретную группу. Только чтоние
-/api/v1/follow/	Follow	GET, POST	Получаем все подписки пользователя сделавшего GET запрос. Подписываемся на другого пользователя. Подписыватся на себя безсмысленно
-/api/v1/jwt/create/	Token	POST	Получаем токен
-/api/v1/jwt/refresh/	Token	POST	Обновляем токен
-/api/v1/jwt/verify/	Token	POST	Проверяем токен
+| Endpoint | Object | Methods | Description |
+| --- | :---: | :---: | --- |
+| `/api/v1/posts/` | Post | GET, POST | Получаем все посты или создаем пост. |
+| `/api/v1/posts/{id}/` | Post | GET, PUT, PATCH, DELETE | Получаем, редактируем, заменяем, удаляем пост. |
+| `/api/v1/posts/{post_id}/comments/` | Comment | GET, POST | Получаем все комментарии конкретного поста или создаем комментарий. |
+| `/api/v1/posts/{post_id}/comments/{id}/` | Comment | GET, PUT, PATCH, DELETE | Получаем, редактируем, заменяем, удаляем комментарий. |
+| `/api/v1/groups/` | Group | GET | Получаем все группы (только чтение). |
+| `/api/v1/groups/{id}/` | Group | GET | Получаем данные группы (только чтение). |
+| `/api/v1/follow/` | Follow | GET, POST | Получаем все подписки пользователя, сделавшего GET запрос, или подписываемся на другого пользователя. |
+| `/api/v1/jwt/create/` | Token | POST | Получаем токен. |
+| `/api/v1/jwt/refresh/` | Token | POST | Обновляем токен. |
+| `/api/v1/jwt/verify/` | Token | POST | Проверяем токен. |
 
 ### Примеры
 
-POST запрос /api/v1/posts/
-
+POST запрос `/api/v1/posts/`
+```
 {
   "text": "string",
   "image": "string",
   "group": 0
 }
-
+```
 Ответ:
-
+```
 {
   "id": 0,
   "author": "string",
@@ -81,3 +82,4 @@ POST запрос /api/v1/posts/
   "image": "string",
   "group": 0
 }
+```
