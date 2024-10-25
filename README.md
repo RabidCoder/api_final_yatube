@@ -1,7 +1,14 @@
-# api_final
-api final
+# API для Yatube
 
-### Как запустить проект:
+Учебный проект Яндекс.Практикум курса Python-разработчик(backend).
+
+## Описание
+
+Yatube - социальная сеть для публикации дневников. Позволяет публиковать посты, комментировать посты, осуществлять подписку на авторов.
+
+Для разработки API использован Django REST framework.
+
+## Как запустить проект:
 
 Клонировать репозиторий и перейти в него в командной строке:
 
@@ -45,41 +52,110 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-### Описание
+## Документация к API
 
-Здесь вы можете совершать определенные действия с обьектами:
+ После запуска dev-сервера документация к API доступна по адресу:
+ <http://127.0.0.1:8000/redoc/>
 
-| Endpoint | Object | Methods | Description |
-| --- | :---: | :---: | --- |
-| `/api/v1/posts/` | Post | GET, POST | Получаем все посты или создаем пост. |
-| `/api/v1/posts/{id}/` | Post | GET, PUT, PATCH, DELETE | Получаем, редактируем, заменяем, удаляем пост. |
-| `/api/v1/posts/{post_id}/comments/` | Comment | GET, POST | Получаем все комментарии конкретного поста или создаем комментарий. |
-| `/api/v1/posts/{post_id}/comments/{id}/` | Comment | GET, PUT, PATCH, DELETE | Получаем, редактируем, заменяем, удаляем комментарий. |
-| `/api/v1/groups/` | Group | GET | Получаем все группы (только чтение). |
-| `/api/v1/groups/{id}/` | Group | GET | Получаем данные группы (только чтение). |
-| `/api/v1/follow/` | Follow | GET, POST | Получаем все подписки пользователя, сделавшего GET запрос, или подписываемся на другого пользователя. |
-| `/api/v1/jwt/create/` | Token | POST | Получаем токен. |
-| `/api/v1/jwt/refresh/` | Token | POST | Обновляем токен. |
-| `/api/v1/jwt/verify/` | Token | POST | Проверяем токен. |
+## Примеры запросов
 
-### Примеры
+### Публикация и получение комментариев к постам
 
-POST запрос `/api/v1/posts/`
+Request:```[GET] http://127.0.0.1:8000/api/v1/posts/1/comments/```
+
+Response:
+
+```json
+[
+    {
+        "id": 1,
+        "author": "string",
+        "post": 1,
+        "text": "string",
+        "created": "2022-08-06T10:59:31.721673Z"
+    }
+]
 ```
+
+Request:```[POST] http://127.0.0.1:8000/api/v1/posts/1/comments/```
+
+Request body:
+
+```json
 {
-  "text": "string",
-  "image": "string",
-  "group": 0
+    "text": "1st comment"
 }
 ```
-Ответ:
-```
+
+Response:
+
+```json
 {
-  "id": 0,
-  "author": "string",
-  "text": "string",
-  "pub_date": "2022-09-21T19:57:45.329Z",
-  "image": "string",
-  "group": 0
+    "id": 1,
+    "author": "string",
+    "post": 1,
+    "text": "string",
+    "created": "2022-08-06T10:59:31.721673Z"
 }
 ```
+
+### Публикация и получение постов
+
+Request: ```[GET] http://127.0.0.1:8000/api/v1/posts/?limit=2&offset=1```
+
+Response:
+
+```json
+{
+    "count": 5,
+    "next": "http://127.0.0.1:8000/api/v1/posts/?limit=2&offset=3",
+    "previous": "http://127.0.0.1:8000/api/v1/posts/?limit=2",
+    "results": [
+        {
+            "id": 2,
+            "author": "string",
+            "text": "string",
+            "pub_date": "2022-08-06T10:01:17.273956Z",
+            "image": "string",
+            "group": 0
+        },
+        {
+            "id": 3,
+            "author": "string",
+            "text": "string",
+            "pub_date": "2022-08-06T10:42:39.095878Z",
+            "image": "string",
+            "group": 0
+        }
+    ]
+}
+```
+
+Request: ```[POST] http://127.0.0.1:8000/api/v1/posts/```
+
+Request body:
+
+```json
+{
+    "text": "string",
+    "image": "string",
+    "group": 0
+}
+```
+
+Response:
+
+```json
+{
+    "id": 0,
+    "author": "string",
+    "text": "string",
+    "pub_date": "2022-08-06T10:59:31.721673Z",
+    "image": "string",
+    "group": 0
+}
+```
+
+## Автор
+
+ Александр Кречетов (krechet0v.alex@yandex.ru)
