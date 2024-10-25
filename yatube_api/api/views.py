@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import filters, viewsets
-from rest_framework.exceptions import PermissionDenied
+from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
@@ -30,7 +29,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     """Вьюсет получения данных о подписках пользователя."""
 
     serializer_class = FollowSerializer
@@ -61,8 +62,4 @@ class PostViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
-        if self.request.user.is_anonymous:
-            raise PermissionDenied(
-                'Необходимо авторизоваться для создания поста.'
-            )
         serializer.save(author=self.request.user)
